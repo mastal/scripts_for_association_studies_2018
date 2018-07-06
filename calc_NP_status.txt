@@ -1,0 +1,42 @@
+###############################################
+###############################################
+# Maria Stalteri
+# 05/07/2018
+# calc_NP_status.txt
+#
+###############################################
+###############################################
+# R script to calculate NP status from PDQ scores.
+# Adapted from my notes, 
+# CWP_counts_pt3_20170907.txt
+#
+###############################################
+###############################################
+
+NP.status.CWP <- NULL
+
+for (aa in 1:length(PDQ.scores.CWP.red$PDQ_Final_Score)){
+    if (PDQ.scores.CWP.red$PDQ_Final_Score[aa] <= 12){
+
+        # controls
+        NP.status.CWP[aa] = 0
+    }
+    else if (PDQ.scores.CWP.red$PDQ_Final_Score[aa] >= 13 &
+             PDQ.scores.CWP.red$PDQ_Final_Score[aa] <= 18) {
+
+        # ambiguous, in-between
+        NP.status.CWP[aa] = 1
+    }
+    else if (PDQ.scores.CWP.red$PDQ_Final_Score[aa] >= 19 &
+             PDQ.scores.CWP.red$PDQ_Final_Score[aa] <= 38) {
+
+        # cases
+        NP.status.CWP[aa] = 2
+    }
+    else{
+        print("Error -  Invalid pain score at row: ", aa)
+    }
+}
+
+####################################################
+####################################################

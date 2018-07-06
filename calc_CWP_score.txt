@@ -1,0 +1,69 @@
+###################################################
+###################################################
+# Maria Stalteri
+# 05/07/2018
+# calc_CWP_score.txt
+#
+###################################################
+###################################################
+# R script to calculate CWP score from questionnaire.
+# Adapted from my notes,
+# CWP_counts_pt3_20170907.txt 
+#
+###################################################
+###################################################
+
+CWP.score.4to6.9999.3221.7<-NULL
+  
+for (k3 in 1:length(PDQ.scores.CWP.red$Q25_4)){
+
+      # remove individuals that don't have yes
+      # answers to all 4 pain questions;
+      # check for answers of 0 (No).
+      # have to add the checks for Q25_7 here,
+      # pain > 3 mo.
+
+      if (PDQ.scores.CWP.red$Q25_4[k3] == 0 |
+          PDQ.scores.CWP.red$Q25_5[k3] == 0 |
+          PDQ.scores.CWP.red$Q25_6[k3] == 0 |
+          PDQ.scores.CWP.red$Q25_7[k3] == 0){
+          CWP.score.4to6.9999.3221.7[k3] = 0
+      }
+      # check for missing answers.
+      else if (PDQ.scores.CWP.red$Q25_4[k3] == 999905 |
+               PDQ.scores.CWP.red$Q25_4[k3] == 999906 |
+               PDQ.scores.CWP.red$Q25_5[k3] == 999905 |
+               PDQ.scores.CWP.red$Q25_5[k3] == 999906 |
+               PDQ.scores.CWP.red$Q25_6[k3] == 999905 |
+               PDQ.scores.CWP.red$Q25_6[k3] == 999906 |
+               PDQ.scores.CWP.red$Q25_7[k3] == 999905 |
+               PDQ.scores.CWP.red$Q25_7[k3] == 999906){
+               CWP.score.4to6.9999.3221.7[k3] = 0
+      }
+      # check Q25_4,Q25_5 for pain on both sides.
+      else if (PDQ.scores.CWP.red$Q25_4[k3] == 3 |
+               PDQ.scores.CWP.red$Q25_5[k3] == 3 ){
+               CWP.score.4to6.9999.3221.7[k3] = 1
+      }
+      # check for pain on 1R and 1L.
+      else if (PDQ.scores.CWP.red$Q25_4[k3] == 1 &
+               PDQ.scores.CWP.red$Q25_5[k3] == 2 ){
+               CWP.score.4to6.9999.3221.7[k3] = 1
+      }
+      else if (PDQ.scores.CWP.red$Q25_4[k3] == 2 &
+               PDQ.scores.CWP.red$Q25_5[k3] == 1 ){
+               CWP.score.4to6.9999.3221.7[k3] = 1
+      }
+      else{
+          # code corrected so that this branch
+          # scores 0 instead of 1.
+          # at this point, this branch isn't
+          # really doing anything, except making sure
+          # that there are no NA slots.
+
+          CWP.score.4to6.9999.3221.7[k3] = 0
+      }
+}
+
+###################################################
+###################################################
